@@ -1,0 +1,15 @@
+import Box from "@mui/material/Box";
+import React from "react";
+
+const CarLayout = ({ children }:{children:React.ReactNode}) => {
+    return (
+        <Box sx={{
+            marginTop: '2rem',
+            width:'100%'
+        }}>
+            {children}
+        </Box>
+    )
+}
+
+export default CarLayout
