@@ -27,7 +27,7 @@ import {snackbarState} from "@/state/atoms/snackbarState.atom";
 
 const SignInPage = () => {
     const router = useRouter();
-    const [auth, setAuthState] = useRecoilState(authState)
+    const [_, setAuthState] = useRecoilState(authState)
     const setSnackBarState = useSetRecoilState(snackbarState)
     const [showPassword, setShowPassword] = useState(false)
     const validationSchema = yup.object({
@@ -85,7 +85,7 @@ const SignInPage = () => {
                             justifyContent: 'center',
                             alignItems: 'center',
                             fontSize: {
-                                xs: '1.5rem',
+                                xs: '2.5rem',
                                 lg: '2rem',
                             },
                             fontWeight: 'bold',
@@ -106,7 +106,7 @@ const SignInPage = () => {
                                     <Box sx={{
                                         width: {
                                             xs: '90%',
-                                            sm: '75%',
+                                            sm: '70%',
                                             md: '50%',
                                         }
                                     }}>
@@ -139,7 +139,7 @@ const SignInPage = () => {
                                     <Box sx={{
                                         width: {
                                             xs: '90%',
-                                            sm: '75%',
+                                            sm: '70%',
                                             md: '50%',
                                         }
                                     }}>

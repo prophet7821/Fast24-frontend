@@ -53,7 +53,7 @@ const AppShellLayout = ({children, brands}: {
                                     sm: '1.5rem',
                                 },
                                 fontWeight: 'bold',
-                            }} variant={"h5"}>Shop By Brands</Typography>
+                            }} variant={"h5"}>Take your pick!</Typography>
                         </Box>
                         {brands}
                     </AppShellContainer>

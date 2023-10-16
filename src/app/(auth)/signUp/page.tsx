@@ -42,7 +42,7 @@ const SignUpPage = () => {
             .required('Password is required'),
     });
     const setSnackBarState = useSetRecoilState(snackbarState)
-    const { register, handleSubmit, control, formState: { errors },watch } = useForm({
+    const { register, handleSubmit, formState: { errors },watch } = useForm({
         resolver: yupResolver(validationSchema)
     });
 
@@ -79,7 +79,7 @@ const SignUpPage = () => {
                             justifyContent: 'center',
                             alignItems: 'center',
                             fontSize: {
-                                xs: '1.5rem',
+                                xs: '2.5rem',
                                 md: '2rem',
                             },
                             fontWeight: 'bold',
@@ -100,7 +100,7 @@ const SignUpPage = () => {
                                     <Box sx={{
                                         width: {
                                             xs: '90%',
-                                            sm: '75%',
+                                            sm: '70%',
                                             md: '50%',
                                         }
                                     }}>
@@ -137,7 +137,7 @@ const SignUpPage = () => {
                                         gap: 1,
                                         width: {
                                             xs: '90%',
-                                            sm: '75%',
+                                            sm: '70%',
                                             md: '50%',
                                         }
                                     }}>
@@ -185,7 +185,7 @@ const SignUpPage = () => {
                                     <Box sx={{
                                         width: {
                                             xs: '90%',
-                                            sm: '75%',
+                                            sm: '70%',
                                             md: '50%',
                                         }
                                     }}>
@@ -218,7 +218,7 @@ const SignUpPage = () => {
                                     <Box sx={{
                                         width: {
                                             xs: '90%',
-                                            sm: '75%',
+                                            sm: '70%',
                                             md: '50%',
                                         }
                                     }}>

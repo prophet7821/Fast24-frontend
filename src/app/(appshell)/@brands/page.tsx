@@ -3,6 +3,12 @@ import Grid from "@mui/material/Grid";
 import MDFOutlinedBox from "@/components/MDFOutlinedBox";
 import styled from "@mui/material/styles/styled";
 import koenigsegg from '@/assets/koenigsegg_final.png'
+import ferrari from '@/assets/ferrari.png'
+import porsche from '@/assets/porsche.png'
+import bmw from '@/assets/bmw.png'
+import buggati from '@/assets/buggati.png'
+import lamborghini from '@/assets/lamborghini.png'
+
 
 const brands = () => {
     return (
@@ -15,44 +21,44 @@ const brands = () => {
                     </video>
                 </Wrap>
             </Grid>
-            <Grid item xs={6} md={2}>
-                <Wrap>
-                    <img src={koenigsegg.src} alt={"Koenigsegg"}/>
-                    <video loop autoPlay muted>
-                        <source src={'koenigsegg.mp4'} type={'video/mp4'}/>
-                    </video>
-                </Wrap>
 
-            </Grid>
             <Grid item xs={6} md={2}>
                 <Wrap>
-                    <img src={koenigsegg.src} alt={"Koenigsegg"}/>
+                    <img src={ferrari.src} alt={"Koenigsegg"}/>
                     <video loop autoPlay muted>
-                        <source src={'koenigsegg.mp4'} type={'video/mp4'}/>
+                        <source src={'ferrari.mp4'} type={'video/mp4'}/>
                     </video>
                 </Wrap>
             </Grid>
             <Grid item xs={6} md={2}>
                 <Wrap>
-                    <img src={koenigsegg.src} alt={"Koenigsegg"}/>
+                    <img src={porsche.src} alt={"Koenigsegg"}/>
                     <video loop autoPlay muted>
-                        <source src={'koenigsegg.mp4'} type={'video/mp4'}/>
+                        <source src={'porsche.mp4'} type={'video/mp4'}/>
                     </video>
                 </Wrap>
             </Grid>
             <Grid item xs={6} md={2}>
                 <Wrap>
-                    <img src={koenigsegg.src} alt={"Koenigsegg"}/>
+                    <img src={bmw.src} alt={"Koenigsegg"}/>
                     <video loop autoPlay muted>
-                        <source src={'koenigsegg.mp4'} type={'video/mp4'}/>
+                        <source src={'bmw.mp4'} type={'video/mp4'}/>
                     </video>
                 </Wrap>
             </Grid>
             <Grid item xs={6} md={2}>
                 <Wrap>
-                    <img src={koenigsegg.src} alt={"Koenigsegg"}/>
+                    <img src={buggati.src} alt={"Koenigsegg"}/>
                     <video loop autoPlay muted>
-                        <source src={'koenigsegg.mp4'} type={'video/mp4'}/>
+                        <source src={'buggati.mp4'} type={'video/mp4'}/>
+                    </video>
+                </Wrap>
+            </Grid>
+            <Grid item xs={6} md={2}>
+                <Wrap>
+                    <img src={lamborghini.src} alt={"Koenigsegg"}/>
+                    <video loop autoPlay muted>
+                        <source src={'lambo.mp4'} type={'video/mp4'}/>
                     </video>
                 </Wrap>
             </Grid>
@@ -75,7 +81,8 @@ const Wrap = styled(MDFOutlinedBox)({
         transform: 'translate(-50%,-50%)',
         width:' 50%',
         transition: 'opacity 0.3s ease-in-out',
-        zIndex:0
+        zIndex:0,
+
     },
     '& video': {
         width: '100%',
