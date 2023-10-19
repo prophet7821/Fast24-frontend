@@ -9,12 +9,16 @@ import {userState} from "@/state/atoms/user.atom";
 import {getProfile} from "@/services/user.service";
 import {removeAuthHeader, setAuthHeader} from "@/services/API";
 import {usePathname} from "next/navigation";
+import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 
-const AppShellLayout = ({children, brands}: {
+const AppShellLayout = ({children, brands, brandsBMW, brandsFerrari, brandsKoenigsegg, brandsLambo}: {
     children: React.ReactNode,
-    brands: React.ReactNode
+    brands: React.ReactNode,
+    brandsBMW: React.ReactNode,
+    brandsFerrari: React.ReactNode,
+    brandsKoenigsegg: React.ReactNode,
+    brandsLambo: React.ReactNode
 }) => {
     const auth = useRecoilValue(authState);
     const setUser = useSetRecoilState(userState)
@@ -43,19 +47,43 @@ const AppShellLayout = ({children, brands}: {
                 <>
                     {children}
                     <AppShellContainer>
-                        <Box sx={{
-                            margin: '1rem'
-                        }}>
-                            <Typography sx={{
-                                color:'white',
-                                fontSize: {
-                                    xs: '1rem',
-                                    sm: '1.5rem',
-                                },
-                                fontWeight: 'bold',
-                            }} variant={"h5"}>Take your pick!</Typography>
-                        </Box>
                         {brands}
+                        <Box sx={{
+                            margin: '1rem',
+                            width: '100%'
+                        }}>
+                            <Divider sx={{
+                                background: '#9e9e9e'
+                            }}/>
+                        </Box>
+                        {brandsBMW}
+                        <Box sx={{
+                            margin: '1rem',
+                            width: '100%'
+                        }}>
+                            <Divider sx={{
+                                background: '#9e9e9e'
+                            }}/>
+                        </Box>
+                        {brandsFerrari}
+                        <Box sx={{
+                            margin: '1rem',
+                            width: '100%'
+                        }}>
+                            <Divider sx={{
+                                background: '#9e9e9e'
+                            }}/>
+                        </Box>
+                        {brandsKoenigsegg}
+                        <Box sx={{
+                            margin: '1rem',
+                            width: '100%'
+                        }}>
+                            <Divider sx={{
+                                background: '#9e9e9e'
+                            }}/>
+                        </Box>
+                        {brandsLambo}
                     </AppShellContainer>
                 </>
 

@@ -17,7 +17,9 @@ const SpecBadge = ({stockSpecs, stockRating}: {
             borderRadius: '0.5rem',
         }}>
             <Box sx={{
-                fontSize: '1.5rem',
+                fontSize: {
+                    xs: '0.8rem'
+                },
                 fontWeight: 'bold',
                 color: 'rgb(255,255,255)',
                 margin: '0 0.1rem',
@@ -26,7 +28,9 @@ const SpecBadge = ({stockSpecs, stockRating}: {
             <Box sx={{
                 display: 'flex',
                 fontWeight: 'bold',
-                fontSize: '1rem',
+                fontSize: {
+                    xs: '0.8rem',
+                },
                 background: 'rgb(255,255,255)',
                 borderRadius: '0 0.5rem 0.5rem 0',
                 padding: '0.2rem',

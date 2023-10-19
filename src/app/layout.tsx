@@ -4,6 +4,7 @@ import './global.css'
 import type {Metadata} from 'next'
 import {RecoilRoot} from "recoil";
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import SnackBar from "@/components/SnackBar";
 
 const queryClient = new QueryClient();
 
@@ -12,17 +13,19 @@ export const metadata: Metadata = {
 }
 
 
-const RootLayout = ({children, snackbar}: {
+const RootLayout = ({children, footer, snackbar}: {
     children: React.ReactNode,
-    snackbar: React.ReactNode
+    snackbar: React.ReactNode,
+    footer: React.ReactNode,
 }) => {
     return (
         <html>
             <body>
                 <RecoilRoot>
                     <QueryClientProvider client={queryClient}>
+                        <SnackBar/>
                         {children}
-                        {/*{snackbar}*/}
+                        {footer}
                     </QueryClientProvider>
                 </RecoilRoot>
             </body>

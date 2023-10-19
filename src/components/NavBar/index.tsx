@@ -27,7 +27,7 @@ const Navbar = () => {
         <MDFAppBar>
             <Grid container>
                 <Grid item xs={4}>
-                    <Box onClick={()=> console.log('Hello')}  sx={{
+                    <Box onClick={()=> router.push('/')}  sx={{
                         display: 'flex',
                         height: '100%',
                         alignItems: 'center',
