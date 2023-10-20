@@ -6,14 +6,16 @@ import Grid from '@mui/material/Grid'
 import {useQuery} from "@tanstack/react-query";
 import {searchService} from "@/services/cars.service";
 import CarCard from "@/components/CarCard";
+import Divider from "@mui/material/Divider";
 
-const BrandsFerrari = () => {
+const BrandsKoenigsegg= () => {
     const {data, isLoading, isError} = useQuery({
-        queryKey: ['ferrariBanner'],
-        queryFn: () => searchService('ferrari', 0, 6)
+        queryKey: ['koenigseggBanner'],
+        queryFn: () => searchService('koenigsegg', 0, 6)
     })
     if (isLoading) return <div>Hello</div>
     if (isError) return <div>Hello</div>
+    console.log(data)
 
 
     return (
@@ -28,7 +30,7 @@ const BrandsFerrari = () => {
                         sm: '1.5rem',
                     },
                     fontWeight: 'bold',
-                }} variant={"h5"}>Men dream their cars Red.</Typography>
+                }} variant={"h5"}>They made a family car which went 400kmph</Typography>
             </Box>
             <Grid container spacing={2}>
                 {
@@ -39,10 +41,18 @@ const BrandsFerrari = () => {
                     ))
                 }
             </Grid>
+            <Box sx={{
+                margin: '1rem',
+                width: '100%'
+            }}>
+                <Divider sx={{
+                    background: '#9e9e9e'
+                }}/>
+            </Box>
         </>
 
     )
 }
 
 
-export default BrandsFerrari;
+export default BrandsKoenigsegg;

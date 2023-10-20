@@ -6,13 +6,13 @@ import {useQuery} from "@tanstack/react-query";
 import {getCarById} from "@/services/cars.service";
 import MDFGradientText from "@/components/MDFGradientText";
 import SpecBadge from "@/components/SpecBadge";
-import SpecsTable from "@/components/SpecsTable";
 import MDFContainedBox from "@/components/MDFContainedBox";
 import BuyNowButton from "@/components/BuyNow";
 import {useRecoilState} from "recoil";
 import {paymentModalState} from "@/state/atoms/paymentModal.atom";
 import StripePayment from "@/components/StripePayment";
 import ModelTypeBadge from "@/components/ModelTypeBadge";
+import SpecsCard from "@/components/SpecsCard";
 
 const CarDetails = ({params}: { params: { id: string } }) => {
     const [open, setOpen] = useRecoilState(paymentModalState)
@@ -36,13 +36,14 @@ const CarDetails = ({params}: { params: { id: string } }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
-                <Grid container>
+                <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
                         <Box sx={{
                             display: 'flex',
                             flexDirection: 'column',
                             padding: '1rem',
                             gap: '1rem',
+                            height: '100%',
                         }}>
                             <Box sx={{
                                 display: 'flex',
@@ -108,7 +109,47 @@ const CarDetails = ({params}: { params: { id: string } }) => {
                             </Box>
 
                             <Box>
-                                <SpecsTable data={data}/>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={3}>
+                                        <SpecsCard title={'DriveType'} spec={data.driveType}/>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <SpecsCard title={'Weight'} spec={data.weightLbs}/>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <SpecsCard title={'Acceleration'} spec={data.acceleration}/>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <SpecsCard title={'Braking'} spec={data.braking}/>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <SpecsCard title={'Handling'} spec={data.handling}/>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <SpecsCard title={'Launch'} spec={data.launch}/>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <SpecsCard title={'Offroad'} spec={data.offroad}/>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <SpecsCard title={'Speed'} spec={data.speed}/>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <SpecsCard title={'Top-Speed'}
+                                                   spec={data.topSpeed === 'info_not_found' ? '-' : data.topSpeed?.split(" ")[0]}/>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <SpecsCard title={'0-60Mph'}
+                                                   spec={data['0-60Mph'] === 'info_not_found' ? '-' : data['0-60Mph']}/>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <SpecsCard title={'0-100Mph'}
+                                                   spec={data['0-100Mph'] === 'info_not_found' ? '-' : data['0-100Mph']}/>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <SpecsCard title={'HorsePower'} spec={data.horsePower}/>
+                                    </Grid>
+                                </Grid>
                             </Box>
                         </Box>
                     </Grid>

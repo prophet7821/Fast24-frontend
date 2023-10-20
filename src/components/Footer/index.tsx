@@ -1,5 +1,4 @@
-"use client"
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import React from "react";
 
@@ -12,7 +11,6 @@ const Footer = () => {
                 justifyContent: 'center',
                 height: '5vh',
                 width: '100%',
-                marginTop: '1rem',
                 paddingTop: '1rem'
             }}>
                 <Typography sx={{

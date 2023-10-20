@@ -1,22 +1,15 @@
 "use client"
 import React from "react";
 import './global.css'
-import type {Metadata} from 'next'
 import {RecoilRoot} from "recoil";
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import Footer from "@/components/Footer";
 import SnackBar from "@/components/SnackBar";
 
 const queryClient = new QueryClient();
 
-export const metadata: Metadata = {
-    title: 'Fast 24',
-}
-
-
-const RootLayout = ({children, footer, snackbar}: {
+const RootLayout = ({children}: {
     children: React.ReactNode,
-    snackbar: React.ReactNode,
-    footer: React.ReactNode,
 }) => {
     return (
         <html>
@@ -25,7 +18,7 @@ const RootLayout = ({children, footer, snackbar}: {
                     <QueryClientProvider client={queryClient}>
                         <SnackBar/>
                         {children}
-                        {footer}
+                        <Footer/>
                     </QueryClientProvider>
                 </RecoilRoot>
             </body>

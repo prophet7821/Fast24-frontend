@@ -4,18 +4,23 @@ const SpecBadge = ({stockSpecs, stockRating}: {
     stockSpecs: string,
     stockRating: number,
 }) => {
+    const colorCodes: {
+        [key: string]: string
+    } = {
+        D: '#5df3ff',
+        C: '#ffe800',
+        B: '#ff5815',
+        A: '#ff006d',
+        S1: '#f758ff',
+        S2: '#1a4dff',
+    }
     return <Box sx={{
         padding: '0.1rem',
         background: 'rgb(255,255,255)',
         borderRadius: '0.5rem',
     }}>
-        <Box sx={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: '0.1rem 0.15rem',
-            background: 'rgb(255,0,0)',
-            borderRadius: '0.5rem',
-        }}>
+        <Box
+            sx={{alignItems: 'center', background: colorCodes[stockSpecs], borderRadius: '0.5rem', display: 'flex', padding: '0.1rem 0.15rem',}}>
             <Box sx={{
                 fontSize: {
                     xs: '0.8rem'

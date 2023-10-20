@@ -1,4 +1,3 @@
-"use client"
 import Box from '@mui/material/Box';
 import Typography from "@mui/material/Typography";
 import React from "react";
@@ -6,11 +5,12 @@ import Grid from '@mui/material/Grid'
 import {useQuery} from "@tanstack/react-query";
 import {searchService} from "@/services/cars.service";
 import CarCard from "@/components/CarCard";
+import Divider from "@mui/material/Divider";
 
-const BrandsBWM = () => {
+const BrandsFerrari = () => {
     const {data, isLoading, isError} = useQuery({
-        queryKey: ['bmwBanner'],
-        queryFn: () => searchService('bmw', 0, 6)
+        queryKey: ['ferrariBanner'],
+        queryFn: () => searchService('ferrari', 0, 6)
     })
     if (isLoading) return <div>Hello</div>
     if (isError) return <div>Hello</div>
@@ -28,7 +28,7 @@ const BrandsBWM = () => {
                         sm: '1.5rem',
                     },
                     fontWeight: 'bold',
-                }} variant={"h5"}>Because we dreamed of owning that BMW M3 from NFS</Typography>
+                }} variant={"h5"}>Men dream their cars Red.</Typography>
             </Box>
             <Grid container spacing={2}>
                 {
@@ -39,10 +39,18 @@ const BrandsBWM = () => {
                     ))
                 }
             </Grid>
+            <Box sx={{
+                margin: '1rem',
+                width: '100%'
+            }}>
+                <Divider sx={{
+                    background: '#9e9e9e'
+                }}/>
+            </Box>
         </>
 
     )
 }
 
 
-export default BrandsBWM;
+export default BrandsFerrari;
