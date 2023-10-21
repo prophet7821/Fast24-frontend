@@ -1,9 +1,10 @@
+"use client"
 import Box from '@mui/material/Box';
 import styled from "@mui/material/styles/styled";
 import bgImg from '@/assets/lg-13.png'
 
 
-const HeroPic = styled(Box)({
+const AppShellPic = styled(Box)({
     backgroundImage: `url(${bgImg.src})`,
     height:'75vh',
     backgroundSize: 'cover',
@@ -11,4 +12,4 @@ const HeroPic = styled(Box)({
     backgroundPosition: 'center',
 })
 
-export default HeroPic
+export default AppShellPic

@@ -1,3 +1,4 @@
+"use client"
 import styled from "@mui/material/styles/styled";
 import Typography from "@mui/material/Box";
 

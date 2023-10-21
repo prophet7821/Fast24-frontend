@@ -1,4 +1,3 @@
-"use client"
 import Snackbar from '@mui/material/Snackbar';
 import {useRecoilState} from "recoil";
 import {snackbarState} from '@/state/atoms/snackbarState.atom'

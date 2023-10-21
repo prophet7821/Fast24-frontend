@@ -1,5 +1,4 @@
-import Button from "@mui/material/Button";
-import styled from "@mui/material/styles/styled";
+"use client"
 import IconButton from "@mui/material/IconButton";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {useRecoilValue} from "recoil";
