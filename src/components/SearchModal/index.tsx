@@ -46,7 +46,7 @@ const SearchModal = () => {
             distinctUntilChanged(),
             filter((value) => value.trim() !== '')
         ).subscribe(async (value) => {
-            const result = await searchService(value, 0, 10)
+            const result = await searchService(value, 0, 100)
             setSearchResult(result)
             setSearchTerm(value)
         })

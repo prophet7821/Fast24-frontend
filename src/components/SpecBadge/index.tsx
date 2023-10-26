@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 
 const SpecBadge = ({stockSpecs, stockRating}: {
     stockSpecs: string,
-    stockRating: number,
+    stockRating: number | string
 }) => {
     const colorCodes: {
         [key: string]: string

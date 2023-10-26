@@ -6,6 +6,8 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import CarCard from "@/components/CarCard";
+import MDFContainedBox from "@/components/MDFContainedBox";
+import FilterButton from "@/components/FilterButton";
 
 const CarsPageSkeleton = ({searchParams}: {
     searchParams: { [key: string]: string | string[] }
@@ -14,15 +16,17 @@ const CarsPageSkeleton = ({searchParams}: {
     const {
         data,
         isLoading,
-        isError
+        isError,
+        error
     } = useQuery({
-        queryKey: ['cars'],
+        queryKey: ['cars',term],
         queryFn: () => searchService(term, 0, 100)
     })
 
     if (isLoading) return <div>Loading...</div>
-    if (isError) return <div>Error...</div>
-    console.log(data);
+    if (isError) {
+        return (<div>Error...</div>)
+    }
 
     return (
         <Container maxWidth={'lg'} sx={{
@@ -33,19 +37,27 @@ const CarsPageSkeleton = ({searchParams}: {
             gap: '1.5rem',
             justifyContent: 'center',
             alignItems: 'center',
-
         }}>
             <Box sx={{
                 display: 'flex',
                 width: '100%',
+                justifyContent: 'space-between',
+                alignItems: 'center'
             }}>
                 <Box sx={{
-                    fontSize: '1.5rem',
+                    fontSize: {
+                        xs: '1rem',
+                        md: '1.5rem',
+                    },
                     fontWeight: 'bold',
                 }}>
                     Returned {data?.length} results
                 </Box>
                 {/*Filter Button*/}
+
+                <MDFContainedBox>
+                    <FilterButton/>
+                </MDFContainedBox>
             </Box>
 
             <Box sx={{

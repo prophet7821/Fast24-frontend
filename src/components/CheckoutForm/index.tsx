@@ -6,17 +6,17 @@ const CheckoutForm = () => {
     const stripe = useStripe()
     const elements = useElements()
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event:any) => {
         event.preventDefault();
-        const {error: submitError} = await elements.submit();
+        const {error: submitError} = await elements!.submit();
         if(submitError) {
             console.log(submitError)
             return;
         }
 
         const client_secret = await getPaymentIntent();
-        const {error} = await stripe.confirmPayment({
-            elements,
+        const {error} = await stripe!.confirmPayment({
+            elements:elements!,
             clientSecret:client_secret,
             confirmParams:{
                 return_url: 'http://localhost:3000'
