@@ -2,8 +2,8 @@ import {atom} from 'recoil';
 import {Filter} from "@/types/filter.type";
 
 
-export const filterState = atom<Filter>({
-    key: 'filterState',
+export const defaultFilterState = atom<Filter>({
+    key: 'defaultFilterState',
     default: {
         term: '',
         modelType: [],

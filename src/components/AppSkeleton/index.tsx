@@ -28,8 +28,9 @@ const AppSkeleton = ({children}: {
             getProfile().then((res) => {
                 setUser((prev) => ({...prev, data: res, isLoading: false}))
             }).catch((e) => {
-                console.log(e)
+                removeAuthHeader()
                 setUser((prev) => ({...prev, isLoading: false}))
+
             })
         } else {
             setUser((prev) => ({...prev, isLoading: false}))

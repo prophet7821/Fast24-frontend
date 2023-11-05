@@ -72,8 +72,6 @@ const FilterPerformance = () => {
                 max,
             },
         }))
-
-        console.log(filter)
     }
 
 

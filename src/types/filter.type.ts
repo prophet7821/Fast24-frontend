@@ -1,12 +1,9 @@
 export type Filter = {
+    term: string;
     modelType: string[];
     driveType: string[];
     stockSpecs: string[];
     price: {
-        min: number;
-        max: number;
-    };
-    stockRating: {
         min: number;
         max: number;
     };
@@ -34,12 +31,5 @@ export type Filter = {
         min: number;
         max: number;
     };
-    horsePower: {
-        min: number;
-        max: number;
-    };
-    weightLbs: {
-        min: number;
-        max: number;
-    };
+    [key: string]: any;
 }

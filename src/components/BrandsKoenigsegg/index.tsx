@@ -15,7 +15,6 @@ const BrandsKoenigsegg= () => {
     })
     if (isLoading) return <div>Hello</div>
     if (isError) return <div>Hello</div>
-    console.log(data)
 
 
     return (

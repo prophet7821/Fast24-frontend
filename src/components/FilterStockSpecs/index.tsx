@@ -43,7 +43,7 @@ const FilterStockSpecs = () => {
                         }}>
                             <FormControlLabel
                                 label={<SpecBadge stockSpecs={spec} stockRating={'XXX'}/>}
-                                control={<Checkbox sx={{
+                                control={<Checkbox checked={filter['stockSpecs'].includes(spec)} sx={{
                                     color: '#EF4444',
                                     '&.Mui-checked': {
                                         color: '#EF4444',

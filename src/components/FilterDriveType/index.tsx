@@ -9,7 +9,7 @@ import {ChangeEvent} from "react";
 
 const FilterDriveType = () => {
 
-    const [_, setFilter] = useRecoilState(filterState)
+    const [filter, setFilter] = useRecoilState(filterState)
     const handleChange = (e: ChangeEvent<HTMLInputElement>, item: string) => {
         if (e.target.checked) {
             setFilter(f => ({
@@ -52,7 +52,7 @@ const FilterDriveType = () => {
                                             md: '0.75rem'
                                         },
                                     }}>{item}</Box>}
-                                    control={<Checkbox sx={{
+                                    control={<Checkbox checked={filter['driveType'].includes(item)} sx={{
                                         color: '#EF4444',
                                         '&.Mui-checked': {
                                             color: '#EF4444',

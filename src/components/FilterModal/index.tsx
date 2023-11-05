@@ -12,8 +12,15 @@ import FilterPerformance from "@/components/FilterPerformance";
 import MDFContainedBox from "@/components/MDFContainedBox";
 import Button from '@mui/material/Button'
 import {filterState} from "@/state/atoms/filter.atom";
+import {Filter} from "@/types/filter.type";
+import {useRouter} from 'next/navigation'
+import {defaultFilterState} from "@/state/atoms/defaultFilter.atom";
 
 const FilterModal = () => {
+    const router = useRouter();
+    const [filterModalOpen, setFilterModalOpen] = useRecoilState(filterModalState)
+    const [filter, setFilter] = useRecoilState(filterState)
+    const defaultFilter = useRecoilValue(defaultFilterState)
 
     const style = {
         position: 'absolute' as 'absolute',
@@ -35,15 +42,48 @@ const FilterModal = () => {
         gap: '1rem',
     };
 
-    const [filterModalOpen, setFilterModalOpen] = useRecoilState(filterModalState)
-    const filter = useRecoilValue(filterState)
+
     const handleClose = () => {
         setFilterModalOpen(false)
     }
 
-    const handleSubmit = () => {
-        console.log(filter)
+
+    const serializeURL = (filter: Filter) => {
+        const params = new URLSearchParams();
+
+        Object.entries(filter).forEach(([key, value]) => {
+            if (typeof value === 'object' && !Array.isArray(value)) {
+                // If the value is an object, iterate over its properties
+                Object.entries(value).forEach(([subKey, subValue]) => {
+                    if (subValue !== defaultFilter[key][subKey]) {
+                        // Only append the subValue if it differs from the default value
+                        params.append(`${key}_${subKey}`, subValue as string);
+                    }
+                });
+            } else if (Array.isArray(value)) {
+                // If the value is an array, join its elements into a comma-separated string
+                if (value.length > 0) {
+                    params.append(key, value.join(','));
+                }
+
+            } else {
+                // Otherwise, just append the value as-is
+                if (value.toString() !== '') {
+                    params.append(key, value.toString());
+                }
+            }
+        });
+
+        return params.toString();
     }
+
+
+    const handleSubmit = () => {
+        const resolvedURL = serializeURL(filter)
+        router.push('/cars?' + resolvedURL)
+        handleClose()
+    }
+
 
     return (
         <Modal
@@ -51,8 +91,6 @@ const FilterModal = () => {
             onClose={handleClose}
         >
             <Box sx={style}>
-
-
                 <Box sx={{
                     fontWeight: 'bold',
                     fontSize: '1.5rem',

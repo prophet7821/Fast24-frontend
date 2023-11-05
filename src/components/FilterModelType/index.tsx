@@ -94,7 +94,7 @@ const FilterModelType = () => {
                                         md: '0.75rem'
                                     },
                                 }}>{item}</Box>}
-                                control={<Checkbox sx={{
+                                control={<Checkbox checked={filter['modelType'].includes(item)} sx={{
                                     color: '#EF4444',
                                     '&.Mui-checked': {
                                         color: '#EF4444',

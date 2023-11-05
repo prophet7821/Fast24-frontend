@@ -1,6 +1,5 @@
 "use client"
 import {useQuery} from "@tanstack/react-query";
-import {searchService} from "@/services/cars.service";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -8,20 +7,82 @@ import Divider from "@mui/material/Divider";
 import CarCard from "@/components/CarCard";
 import MDFContainedBox from "@/components/MDFContainedBox";
 import FilterButton from "@/components/FilterButton";
+import {useRecoilValue, useSetRecoilState} from "recoil";
+import {filterState} from "@/state/atoms/filter.atom";
+import {defaultFilterState} from "@/state/atoms/defaultFilter.atom";
+import {Filter} from "@/types/filter.type";
+import {filterService} from "@/services/cars.service";
+
 
 const CarsPageSkeleton = ({searchParams}: {
     searchParams: { [key: string]: string | string[] }
 }) => {
-    const term = searchParams['term'] as string
+
+
+    const setFilter = useSetRecoilState(filterState)
+    const defaultFilter = useRecoilValue(defaultFilterState)
+
+    const deserializeURL = (searchParams: { [key: string]: string }) => {
+        const filter: Partial<Filter> = {};
+
+
+        const parseValue = (value: string, defaultValue: any): any => {
+            if (typeof defaultValue === 'number') {
+                return parseFloat(value);
+            } else if (typeof defaultValue === 'boolean') {
+                return value.toLowerCase() === 'true';
+            }
+            return value;
+        };
+
+        Object.entries(searchParams).forEach(([key, value]) => {
+            if (key.includes('_')) {
+                const [parentKey, subKey] = key.split('_');
+                const defaultValue = defaultFilter[parentKey][subKey];
+                if (filter[parentKey]) {
+                    filter[parentKey][subKey] = parseValue(value as string, defaultValue);
+                } else {
+                    filter[parentKey] = {
+                        [subKey]: parseValue(value as string, defaultValue)
+                    };
+                }
+            } else if (value.includes(',') || Array.isArray(defaultFilter[key])) {
+                filter[key] = value.split(',');
+            } else {
+                const defaultValue = defaultFilter[key];
+                filter[key] = parseValue(value, defaultValue);
+            }
+        });
+
+        Object.keys(defaultFilter).forEach(key => {
+            if (!filter[key]) {
+                filter[key] = defaultFilter[key];
+            } else if (typeof defaultFilter[key] === 'object' && !Array.isArray(defaultFilter[key])) {
+                Object.keys(defaultFilter[key]).forEach(subKey => {
+                    if (!filter[key][subKey]) {
+                        filter[key][subKey] = defaultFilter[key][subKey];
+                    }
+                });
+            }
+        });
+
+        return filter as Filter;
+    };
+
+
     const {
         data,
         isLoading,
         isError,
-        error
     } = useQuery({
-        queryKey: ['cars',term],
-        queryFn: () => searchService(term, 0, 100)
+        queryKey: [searchParams],
+        queryFn: () => {
+            const deserializedFilter = deserializeURL(searchParams as { [key: string]: string })
+            setFilter(deserializedFilter)
+            return filterService(deserializedFilter)
+        }
     })
+
 
     if (isLoading) return <div>Loading...</div>
     if (isError) {
