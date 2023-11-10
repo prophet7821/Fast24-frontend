@@ -31,7 +31,7 @@ const CarDetails = ({params}: { params: { id: string } }) => {
 
     return (
         <>
-            <Container maxWidth={'lg'} sx={{
+            <Container maxWidth={'xl'} sx={{
                 margin: '1rem 0',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -61,13 +61,6 @@ const CarDetails = ({params}: { params: { id: string } }) => {
                             }}>
                                 <img src={data?.carImage} alt={""}/>
                             </Box>
-                            <Box>
-                                <MDFContainedBox>
-                                    <BuyNowButton onClick={handleClick}>
-                                        Buy Now - ${data?.price}
-                                    </BuyNowButton>
-                                </MDFContainedBox>
-                            </Box>
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -77,35 +70,43 @@ const CarDetails = ({params}: { params: { id: string } }) => {
                             height: '100%',
                             padding: '1rem',
                             gap: '1rem',
+                            justifyContent: 'space-between',
                         }}>
                             <Box sx={{
                                 display: 'flex',
                                 gap: 2,
                                 alignItems: 'center',
+                                flexDirection : 'column'
                             }}>
-                                <MDFGradientText sx={{
-                                    fontSize: '2rem',
-                                    fontWeight: 'bold',
+                                <Box sx={{
+                                    width: '100%',
                                 }}>
-                                    {data?.name}
-                                </MDFGradientText>
-                            </Box>
-                            <Box sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.5rem',
-                            }}>
-                                <SpecBadge stockSpecs={data?.stockSpecs} stockRating={data?.stockRating}/>
-                                <ModelTypeBadge modelType={data?.modelType}/>
+                                    <MDFGradientText sx={{
+                                        fontSize: '2rem',
+                                        fontWeight: 'bold',
+                                    }}>
+                                        {data?.name}
+                                    </MDFGradientText>
+                                </Box>
+
+                                <Box sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    width: '100%'
+                                }}>
+                                    <SpecBadge stockSpecs={data?.stockSpecs} stockRating={data?.stockRating}/>
+                                    <ModelTypeBadge modelType={data?.modelType}/>
+                                </Box>
                             </Box>
 
-                            <Box sx={{
-                                color: 'white',
-                                fontSize: '1.5rem',
-                                fontWeight: 'bold',
-                                margin: '1rem'
-                            }}>
-                                Price: <MDFGradientText>${data?.price}</MDFGradientText>
+
+                            <Box>
+                                <MDFContainedBox>
+                                    <BuyNowButton onClick={handleClick}>
+                                        Buy Now - ${data?.price}
+                                    </BuyNowButton>
+                                </MDFContainedBox>
                             </Box>
 
                             <Box>

@@ -2,9 +2,10 @@ import {useRecoilState} from "recoil";
 import {paymentModalState} from "@/state/atoms/paymentModal.atom";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import {loadStripe} from '@stripe/stripe-js';
+import {Appearance, loadStripe} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js';
 import CheckoutForm from "@/components/CheckoutForm";
+import MDFGradientText from "@/components/MDFGradientText";
 
 
 const style = {
@@ -15,7 +16,12 @@ const style = {
     background: 'rgba(0,0,0,.2)',
     backdropFilter: 'blur(0.5rem)',
     borderRadius: '1rem',
-    width: '50%',
+    width: {
+        xs: '90%',
+        md: '50%',
+    },
+    display: 'flex',
+    flexDirection: 'column' as 'column',
 }
 
 
@@ -25,6 +31,32 @@ const StripePayment = () => {
     const handleClose = () => {
         setOpen(false)
     }
+
+
+    const appearance: Appearance = {
+        theme: 'flat',
+        labels: 'floating',
+        variables: {
+            colorText: 'white',
+            colorPrimary: '#fff',
+            colorTextPlaceholder: 'rgba(255,255,255,0.3)',
+        },
+        rules: {
+            '.Label': {
+                color: '#fff',
+                fontWeight: '400',
+            },
+            '.Input': {
+                backdropFilter: 'blur(10px)',
+                backgroundColor: 'rgba(255,255,255,0.2)',
+            },
+            '.Error': {
+                color: 'red',
+                fontWeight: 'bold',
+            }
+        }
+    };
+
     return (
         <Modal
             open={open}
@@ -33,13 +65,38 @@ const StripePayment = () => {
             aria-describedby="payment"
         >
             <Box sx={style}>
-                <Elements stripe={stripePromise} options={{
-                    mode:'payment',
-                    amount: 1000,
-                    currency: 'inr'
+                <Box sx={{
+                    color: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    fontWeight: 'bold',
+                    p: '1.8rem',
+                    fontSize: '2rem',
+                    width: '100%',
+                    boxSizing: 'border-box'
                 }}>
-                    <CheckoutForm/>
-                </Elements>
+                    <MDFGradientText>Payment</MDFGradientText>
+                </Box>
+                <Box sx={{
+                    display: 'flex',
+                    p: 2,
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    maxHeight: '50vh',
+                    overflowY: 'scroll',
+                    '&::-webkit-scrollbar': {
+                        width: '0.2rem',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                        background: '#EF4444',
+                        borderRadius: '1rem',
+                    }
+                }}>
+                    <Elements stripe={stripePromise}
+                              options={{amount: 5000, currency: 'inr', mode: 'payment', appearance: appearance}}>
+                        <CheckoutForm/>
+                    </Elements>
+                </Box>
             </Box>
         </Modal>
 
