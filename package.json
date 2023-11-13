@@ -28,11 +28,13 @@
     "recoil-persist": "^5.1.0",
     "rxjs": "^7.8.1",
     "typescript": "^5.2.2",
+    "uuid": "^9.0.1",
     "yup": "^1.3.2"
   },
   "devDependencies": {
     "@types/node": "^20.8.10",
     "@types/react": "^18.2.36",
-    "@types/react-dom": "^18.2.14"
+    "@types/react-dom": "^18.2.14",
+    "@types/uuid": "^9.0.7"
   }
 }

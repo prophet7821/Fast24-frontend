@@ -30,7 +30,6 @@ const AppSkeleton = ({children}: {
             }).catch((e) => {
                 removeAuthHeader()
                 setUser((prev) => ({...prev, isLoading: false}))
-
             })
         } else {
             setUser((prev) => ({...prev, isLoading: false}))

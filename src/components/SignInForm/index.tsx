@@ -26,44 +26,49 @@ import {setAuthHeader} from "@/services/API";
 import {snackbarState} from "@/state/atoms/snackbarState.atom";
 
 const SignInForm = () => {
+
     const router = useRouter();
-    const [_, setAuthState] = useRecoilState(authState)
+    const setAuthState = useSetRecoilState(authState)
     const setSnackBarState = useSetRecoilState(snackbarState)
     const [showPassword, setShowPassword] = useState(false)
     const validationSchema = yup.object({
         email: yup.string().email('Invalid email address').required('Required'),
         password: yup
             .string()
-            .min(8, 'Password should be of minimum 8 characters length')
             .required('Password is required'),
     });
 
     const handleShowPassword = () => {
-        setShowPassword(s=>!s)
+        setShowPassword(s => !s)
     }
+
+
     const login = async (values: loginCredentials) => {
-        setAuthState((prev:AuthState) => ({...prev, isLoading: true}))
-        try{
+        setAuthState((prev: AuthState) => ({...prev, isLoading: true}))
+        try {
             const data = await signIn(values);
             setAuthState({
                 isLoading: false,
                 isAuthenticated: true,
-                token:data['token'],
+                token: data['token'],
             })
             setAuthHeader(data['token'])
-            setSnackBarState(s => ({...s, open: true, message: 'Successfully logged in'}))
+            setSnackBarState(s => ({...s, open: true, message: 'Successfully logged in', severity: 'success'}))
             router.push('/')
-        }catch(e){
-            console.log(e)
-            setAuthState((prev:AuthState) => ({...prev, isLoading: false}))
+        } catch (e: any) {
+            if (e.response.status === 401) {
+                setSnackBarState(s => ({...s, open: true, message: 'Invalid credentials', severity: 'error'}))
+            } else {
+                setSnackBarState(s => ({...s, open: true, message: 'Something went wrong', severity: 'error'}))
+            }
+            setAuthState((prev: AuthState) => ({...prev, isLoading: false}))
         }
     }
 
     const {register, handleSubmit, formState: {errors}} = useForm({
         resolver: yupResolver(validationSchema),
-        mode:'onBlur',
+        mode: 'onBlur',
     });
-
 
 
     return (
@@ -201,7 +206,7 @@ const SignInForm = () => {
                 color: 'white',
                 fontSize: '0.8rem',
             }}>
-                New here?{" "}<MDFGradientText onClick={()=>router.push('/signUp')} sx={{
+                New here?{" "}<MDFGradientText onClick={() => router.push('/signUp')} sx={{
                 '&:hover': {
                     cursor: 'pointer',
                 },

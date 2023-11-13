@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     AddressElement,
-    ExpressCheckoutElement,
+    // ExpressCheckoutElement,
     LinkAuthenticationElement,
     PaymentElement,
     useElements,
@@ -11,29 +11,50 @@ import {getPaymentIntent} from "@/services/payments.service";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import MDFContainedBox from "@/components/MDFContainedBox";
+import {useSetRecoilState} from "recoil";
+import {snackbarState} from "@/state/atoms/snackbarState.atom";
+import {snackbarStateType} from "@/types/snackbar.type";
+import {useEffect} from "react";
+import {generateIdempotencyKey} from "@/lib/idempotencyKey.lib";
+import {removeIdempotencyHeader, setIdempotencyHeader} from "@/services/API";
 
 const CheckoutForm = () => {
+
+    useEffect(() => {
+        const key = generateIdempotencyKey()
+        setIdempotencyHeader(key)
+    }, [])
     const stripe = useStripe()
     const elements = useElements()
+    const setSnackBar = useSetRecoilState(snackbarState)
 
-    const handleSubmit = async (event: any) => {
+
+    const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         const {error: submitError} = await elements!.submit();
-        if (submitError) {
-            console.log(submitError)
+        if (submitError) return;
+
+        const {client_secret, error: paymentIntentError} = await getPaymentIntent()
+        if (paymentIntentError) {
+            setSnackBar((s: snackbarStateType) => ({
+                ...s,
+                open: true,
+                message: 'Something went wrong. Please try again later.',
+                severity: 'error'
+            }))
             return;
         }
+        removeIdempotencyHeader();
 
-        const client_secret = await getPaymentIntent();
+
         const {error} = await stripe!.confirmPayment({
             elements: elements!,
             clientSecret: client_secret,
             confirmParams: {
-                return_url: 'http://localhost:3000'
-            }
+                return_url: 'http://localhost:3000/order/?success=true'
+            },
         })
         if (error) console.log(error)
-        else console.log('success')
     }
 
     return (
@@ -44,13 +65,13 @@ const CheckoutForm = () => {
             flexDirection: 'column',
             gap: '2rem'
         }}>
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-            }}>
-                <ExpressCheckoutElement onConfirm={handleSubmit} />
-            </Box>
+            {/*<Box sx={{*/}
+            {/*    display: 'flex',*/}
+            {/*    flexDirection: 'column',*/}
+            {/*    justifyContent: 'center',*/}
+            {/*}}>*/}
+            {/*    <ExpressCheckoutElement onConfirm={handleSubmit} />*/}
+            {/*</Box>*/}
             <Box component={"form"} onSubmit={handleSubmit} sx={{
                 display: 'flex',
                 flexDirection: 'column',

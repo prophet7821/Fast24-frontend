@@ -9,6 +9,8 @@ import {userState} from "@/state/atoms/user.atom";
 import {useRecoilValue} from "recoil";
 import MDFAvatar from "@/components/NavBar/MDFAvatar";
 import {useRouter} from 'next/navigation'
+import Skeleton from "@mui/material/Skeleton";
+import Avatar from "@mui/material/Avatar";
 
 const Navbar = () => {
     const user = useRecoilValue(userState)
@@ -27,7 +29,7 @@ const Navbar = () => {
         <MDFAppBar>
             <Grid container>
                 <Grid item xs={4}>
-                    <Box onClick={()=> router.push('/')}  sx={{
+                    <Box onClick={() => router.push('/')} sx={{
                         display: 'flex',
                         height: '100%',
                         alignItems: 'center',
@@ -56,7 +58,9 @@ const Navbar = () => {
                         </Box>
                         {
                             user.isLoading ? (
-                                <div>Loading</div>
+                                <Skeleton animation={"wave"} variant="circular">
+                                    <Avatar/>
+                                </Skeleton>
                             ) : (
                                 user.data ? (
                                     <MDFAvatar>{getInitials(user.data["fullName"])}</MDFAvatar>

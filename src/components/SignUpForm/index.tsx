@@ -23,6 +23,7 @@ import SignUpFormSubmitButton from "@/components/SignUpFormSubmitButton";
 import {User} from "@/types/signUpCredentials";
 import {snackbarState} from "@/state/atoms/snackbarState.atom";
 import {useSetRecoilState} from "recoil";
+import {AxiosError} from "axios";
 
 const SignUpForm = () => {
     const router = useRouter();
@@ -42,21 +43,32 @@ const SignUpForm = () => {
             .required('Password is required'),
     });
     const setSnackBarState = useSetRecoilState(snackbarState)
-    const { register, handleSubmit, formState: { errors },watch } = useForm({
+    const {register, handleSubmit, formState: {errors}, watch} = useForm({
         resolver: yupResolver(validationSchema)
     });
 
-    const onSignUp = async(values:User) => {
+    const onSignUp = async (values: User) => {
         setIsLoading(true);
-        try{
+        try {
             await signUp(values);
             setIsLoading(false);
-            setSnackBarState(s => ({...s, open: true, message: 'Successfully signed up'}))
+            setSnackBarState(s => ({
+                ...s, open: true, message: 'Successfully signed up', severity: 'success'
+            }))
             router.push('/signIn');
-        }catch(e){
+        } catch
+            (e: any) {
+            if (e['response']['status'] === 409) {
+                setSnackBarState(s => ({
+                    ...s,
+                    open: true,
+                    message: e['response']['data']['message'],
+                    severity: 'error'
+                }))
+            } else {
+                setSnackBarState(s => ({...s, open: true, message: 'Something went wrong', severity: 'error'}))
+            }
             setIsLoading(false);
-            console.log(e)
-            setSnackBarState(s => ({...s, open: true, message: 'Something went wrong', severity: 'error'}))
         }
     }
 
@@ -87,7 +99,6 @@ const SignUpForm = () => {
                             <MDFGradientText>Fast24</MDFGradientText>
                         </Box>
                     </Grid>
-
 
 
                     <Grid item xs={12}>
@@ -145,7 +156,7 @@ const SignUpForm = () => {
                                             width: '30%',
                                         }}>
                                             <MDFSelect variant={"outlined"}
-                                                       value={watch('mobileCountryCode')||"+91"}
+                                                       value={watch('mobileCountryCode') || "+91"}
                                                        fullWidth {...register('mobileCountryCode')}>
                                                 <MenuItem value={"+91"}>+91</MenuItem>
                                                 <MenuItem value={"+1"}>+1</MenuItem>
@@ -160,8 +171,10 @@ const SignUpForm = () => {
                                                               endAdornment: (
                                                                   <InputAdornment position={"end"}>
                                                                       {errors.mobileNumber && (
-                                                                          <Tooltip title={errors.mobileNumber.message}>
-                                                                              <ErrorOutlineIcon sx={{color: 'red'}}/>
+                                                                          <Tooltip
+                                                                              title={errors.mobileNumber.message}>
+                                                                              <ErrorOutlineIcon
+                                                                                  sx={{color: 'red'}}/>
                                                                           </Tooltip>
                                                                       )}
                                                                   </InputAdornment>
@@ -229,7 +242,8 @@ const SignUpForm = () => {
                                                               <InputAdornment position={"end"}>
                                                                   <IconButton
                                                                       onClick={() => setShowPassword(s => !s)}>
-                                                                      {showPassword ? <Visibility/> : <VisibilityOff/>}
+                                                                      {showPassword ? <Visibility/> :
+                                                                          <VisibilityOff/>}
                                                                   </IconButton>
                                                                   {errors.password && (
                                                                       <Tooltip title={errors.password.message}>
@@ -280,7 +294,7 @@ const SignUpForm = () => {
                 color: 'white',
                 fontSize: '0.8rem',
             }}>
-                Already have an account?{" "}<MDFGradientText onClick={()=> router.push('/signIn')} sx={{
+                Already have an account?{" "}<MDFGradientText onClick={() => router.push('/signIn')} sx={{
                 fontWeight: 'bold',
                 '&:hover': {
                     cursor: 'pointer',

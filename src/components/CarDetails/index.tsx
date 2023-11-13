@@ -23,7 +23,6 @@ const CarDetails = ({params}: { params: { id: string } }) => {
 
     if (isLoading) return <div>Loading...</div>
     if (isError) return <div>Error...</div>
-    console.log(data);
 
     function handleClick() {
         setOpen(true)

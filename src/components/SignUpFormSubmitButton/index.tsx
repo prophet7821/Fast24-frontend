@@ -9,10 +9,10 @@ const AuthButton = styled(Button)({
     color: 'white',
 })
 
-const SignUpFormSubmitButton = ({isLoading}:{isLoading:boolean}) => {
+const SignUpFormSubmitButton = ({isLoading}: { isLoading: boolean }) => {
     return (
         <IconButton disabled={isLoading} type={"submit"} sx={{
-            color:'white'
+            color: 'white'
         }}>
             <ArrowForwardIcon/>
         </IconButton>

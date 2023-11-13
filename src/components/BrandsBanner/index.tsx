@@ -31,50 +31,50 @@ const BrandsBanner = () => {
             </Box>
             <Grid container justifyContent={"space-around"} spacing={2}>
                 <Grid item xs={6} md={2}>
-                    <Wrap onClick={()=> router.push(`/cars?term=koenigsegg`)}>
+                    <Wrap onClick={() => router.push(`/cars?term=koenigsegg`)}>
                         <img src={koenigsegg.src} alt={"Koenigsegg"}/>
-                        <video loop autoPlay muted>
+                        <video preload={"auto"} loop autoPlay muted>
                             <source src={'koenigsegg.mp4'} type={'video/mp4'}/>
                         </video>
                     </Wrap>
                 </Grid>
 
                 <Grid item xs={6} md={2}>
-                    <Wrap onClick={()=> router.push(`/cars?term=ferrari`)}>
+                    <Wrap onClick={() => router.push(`/cars?term=ferrari`)}>
                         <img src={ferrari.src} alt={"Ferrari"}/>
-                        <video loop autoPlay muted>
+                        <video preload={"auto"} loop autoPlay muted>
                             <source src={'ferrari.mp4'} type={'video/mp4'}/>
                         </video>
                     </Wrap>
                 </Grid>
                 <Grid item xs={6} md={2}>
-                    <Wrap onClick={()=> router.push(`/cars?term=porsche`)}>
+                    <Wrap onClick={() => router.push(`/cars?term=porsche`)}>
                         <img src={porsche.src} alt={"Porsche"}/>
-                        <video loop autoPlay muted>
+                        <video preload={"auto"} loop autoPlay muted>
                             <source src={'porsche.mp4'} type={'video/mp4'}/>
                         </video>
                     </Wrap>
                 </Grid>
                 <Grid item xs={6} md={2}>
-                    <Wrap onClick={()=> router.push(`/cars?term=bmw`)}>
+                    <Wrap onClick={() => router.push(`/cars?term=bmw`)}>
                         <img src={bmw.src} alt={"BMW"}/>
-                        <video loop autoPlay muted>
+                        <video preload={"auto"} loop autoPlay muted>
                             <source src={'bmw.mp4'} type={'video/mp4'}/>
                         </video>
                     </Wrap>
                 </Grid>
                 <Grid item xs={6} md={2}>
-                    <Wrap onClick={()=> router.push(`/cars?term=buggati`)}>
+                    <Wrap onClick={() => router.push(`/cars?term=buggati`)}>
                         <img src={buggati.src} alt={"Buggati"}/>
-                        <video loop autoPlay muted>
+                        <video preload={"auto"} loop autoPlay muted>
                             <source src={'buggati.mp4'} type={'video/mp4'}/>
                         </video>
                     </Wrap>
                 </Grid>
                 <Grid item xs={6} md={2}>
-                    <Wrap onClick={()=> router.push(`/cars?term=lambo`)}>
+                    <Wrap onClick={() => router.push(`/cars?term=lambo`)}>
                         <img src={lamborghini.src} alt={"Lamborghini"}/>
-                        <video loop autoPlay muted>
+                        <video preload={"auto"} loop autoPlay muted>
                             <source src={'lambo.mp4'} type={'video/mp4'}/>
                         </video>
                     </Wrap>
@@ -83,11 +83,7 @@ const BrandsBanner = () => {
             <Box sx={{
                 margin: '1rem',
                 width: '100%'
-            }}>
-                <Divider sx={{
-                    background: '#9e9e9e'
-                }}/>
-            </Box>
+            }}/>
         </>
 
     )
@@ -95,37 +91,37 @@ const BrandsBanner = () => {
 
 
 const Wrap = styled(MDFOutlinedBox)({
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     overflow: 'hidden',
-    cursor:'pointer',
+    cursor: 'pointer',
     position: 'relative',
     '& img': {
-        position:'absolute',
-        top:'50%',
-        left:'50%',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
         transform: 'translate(-50%,-50%)',
-        width:' 50%',
+        width: ' 50%',
         transition: 'opacity 0.3s ease-in-out',
-        zIndex:0,
+        zIndex: 0,
 
     },
     '& video': {
         width: '100%',
         height: '100%',
-        opacity:0,
-        zIndex:1,
+        opacity: 0,
+        zIndex: 1,
         transition: 'opacity 0.3s ease-in-out'
     },
 
-    '&:hover':{
-        transform:'scale(1.05)',
-        '& img':{
-            opacity:0,
+    '&:hover': {
+        transform: 'scale(1.05)',
+        '& img': {
+            opacity: 0,
         },
-        '& video':{
-            opacity:1
+        '& video': {
+            opacity: 1
         }
     }
 })

@@ -12,6 +12,7 @@ import {debounceTime, distinctUntilChanged, filter, Subject} from "rxjs";
 import {searchService} from "@/services/cars.service";
 import {Car} from "@/types/car.type";
 import {useRouter} from "next/navigation";
+import MDFCircularProgress from "@/components/MDFCircularProgress";
 
 
 const style = {
@@ -19,20 +20,24 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    background: 'rgba(0,0,0,.2)',
+    background: 'rgba(255,255,255,.1)',
     backdropFilter: 'blur(0.5rem)',
     borderRadius: '1rem',
-    width: '50%',
+    width: {
+        xs: '90%',
+        md: '50%',
+    },
 
 };
 
 const SearchModal = () => {
     const router = useRouter();
-    const [open,setOpen] = useRecoilState(searchModalState);
+    const [open, setOpen] = useRecoilState(searchModalState);
     const [searchResult, setSearchResult] = React.useState<Car[]>([])
     const [searchTerm, setSearchTerm] = React.useState('');
+    const [isLoading, setIsLoading] = React.useState(false);
     const [hoveredItem, setHoveredItem] = React.useState<string | null>(null)
-    const handleClose = () =>{
+    const handleClose = () => {
         setOpen(false)
         setSearchResult([])
         setSearchTerm('')
@@ -46,9 +51,16 @@ const SearchModal = () => {
             distinctUntilChanged(),
             filter((value) => value.trim() !== '')
         ).subscribe(async (value) => {
-            const result = await searchService(value, 0, 10)
-            setSearchResult(result)
-            setSearchTerm(value)
+            try {
+                const result = await searchService(value, 0, 10)
+                setSearchResult(result)
+                setSearchTerm(value)
+            } catch (e) {
+                console.log(e)
+                setSearchResult([])
+            } finally {
+                setIsLoading(false)
+            }
         })
 
         return () => subscription.unsubscribe()
@@ -56,10 +68,12 @@ const SearchModal = () => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value
+        setIsLoading(true)
         searchInputRef.current.next(value)
         if (value === '') {
             setSearchResult([])
             setSearchTerm('')
+            setIsLoading(false)
         }
     }
 
@@ -97,6 +111,13 @@ const SearchModal = () => {
                                 </SvgIcon>
                             </InputAdornment>
                         ),
+                        endAdornment: (
+                            isLoading && (
+                                <InputAdornment position={"end"}>
+                                    <MDFCircularProgress/>
+                                </InputAdornment>
+                            )
+                        ),
                         sx: {
                             color: 'white',
                             fontSize: {
@@ -120,7 +141,7 @@ const SearchModal = () => {
                     }
                 }}>
                     {
-                        searchTerm !== '' && (
+                        !isLoading && searchTerm !== '' && (
                             <Box sx={{
                                 p: 1
                             }}>

@@ -6,7 +6,7 @@ import styled from "@mui/material/styles/styled"
 
 
 const FrostedBar = styled(AppBar)({
-    background: 'rgba(0,0,0,.2)',
+    background: 'rgba(255,255,255,.1)',
     backdropFilter: 'blur(0.5rem)',
     borderRadius: '1rem',
 })
