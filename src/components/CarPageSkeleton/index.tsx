@@ -12,17 +12,20 @@ import {filterState} from "@/state/atoms/filter.atom";
 import {defaultFilterState} from "@/state/atoms/defaultFilter.atom";
 import {Filter} from "@/types/filter.type";
 import {filterService} from "@/services/cars.service";
+import {useMemo} from "react";
+import CarPageFilterSkeleton from "@/components/CarPageFilterSkeleton";
+import noData from '@/assets/no-data-icon.svg'
 
 
 const CarsPageSkeleton = ({searchParams}: {
-    searchParams: { [key: string]: string | string[] }
+    searchParams: { [key: string]: string }
 }) => {
 
 
     const setFilter = useSetRecoilState(filterState)
     const defaultFilter = useRecoilValue(defaultFilterState)
 
-    const deserializeURL = (searchParams: { [key: string]: string }) => {
+    const deserializedURL = useMemo(() => {
         const filter: Partial<Filter> = {};
 
 
@@ -67,7 +70,7 @@ const CarsPageSkeleton = ({searchParams}: {
         });
 
         return filter as Filter;
-    };
+    }, [searchParams]);
 
 
     const {
@@ -77,17 +80,35 @@ const CarsPageSkeleton = ({searchParams}: {
     } = useQuery({
         queryKey: [searchParams],
         queryFn: () => {
-            const deserializedFilter = deserializeURL(searchParams as { [key: string]: string })
-            setFilter(deserializedFilter)
-            return filterService(deserializedFilter)
+            setFilter(deserializedURL)
+            return filterService(deserializedURL)
         }
     })
 
 
-    if (isLoading) return <div>Loading...</div>
-    if (isError) {
-        return (<div>Error...</div>)
-    }
+    const noDataFound = () => (
+        <Box sx={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            gap: '1rem'
+        }}>
+            <img src={noData.src} alt="No Data Found"/>
+            <Box sx={{
+                fontSize: {
+                    xs: '1rem',
+                    md: '1.5rem',
+                },
+                fontWeight: 'bold',
+                color: '#9e9e9e',
+            }}>
+                No Data Found
+            </Box>
+        </Box>
+    )
+
 
     return (
         <Container maxWidth={'lg'} sx={{
@@ -121,27 +142,44 @@ const CarsPageSkeleton = ({searchParams}: {
                 </MDFContainedBox>
             </Box>
 
-            <Box sx={{
-                width: '100%',
-            }}>
-                <Divider sx={{
-                    backgroundColor: '#9e9e9e'
-                }}/>
-            </Box>
-
-            <Box sx={{
-                width: '100%',
-            }}>
-                <Grid container spacing={2}>
-                    {
-                        data?.map((car: any) => (
-                            <Grid key={car['_id']} item xs={6} md={4} lg={3}>
-                                <CarCard car={car}/>
-                            </Grid>
-                        ))
-                    }
-                </Grid>
-            </Box>
+            {
+                isLoading ? (
+                    <CarPageFilterSkeleton/>
+                ) : isError ? (
+                    noDataFound()
+                ) : (
+                    <>
+                        {
+                            data?.length > 0 ? (
+                                <>
+                                    <Box sx={{
+                                        width: '100%',
+                                    }}>
+                                        <Divider sx={{
+                                            backgroundColor: '#9e9e9e'
+                                        }}/>
+                                    </Box>
+                                    <Box sx={{
+                                        width: '100%',
+                                    }}>
+                                        <Grid container spacing={2}>
+                                            {
+                                                data?.map((car: any) => (
+                                                    <Grid key={car['_id']} item xs={6} md={4} lg={3}>
+                                                        <CarCard car={car}/>
+                                                    </Grid>
+                                                ))
+                                            }
+                                        </Grid>
+                                    </Box>
+                                </>
+                            ) : (
+                                noDataFound()
+                            )
+                        }
+                    </>
+                )
+            }
         </Container>
     )
 }

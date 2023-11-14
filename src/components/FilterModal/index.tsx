@@ -27,7 +27,7 @@ const FilterModal = () => {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        background: 'rgba(0,0,0,.2)',
+        background: 'rgba(255,255,255,.2)',
         backdropFilter: 'blur(0.5rem)',
         borderRadius: '1rem',
         width: {

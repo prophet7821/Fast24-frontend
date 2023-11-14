@@ -1,3 +1,5 @@
+"use client"
+
 import {useRecoilState} from "recoil";
 import {paymentModalState} from "@/state/atoms/paymentModal.atom";
 import Modal from "@mui/material/Modal";
@@ -13,7 +15,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    background: 'rgba(0,0,0,.2)',
+    background: 'rgba(255,255,255,.2)',
     backdropFilter: 'blur(0.5rem)',
     borderRadius: '1rem',
     width: {
@@ -25,8 +27,9 @@ const style = {
 }
 
 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PKEY!)
+
 const StripePayment = () => {
-    const stripePromise = loadStripe('pk_test_51LJhJ7SCfwlvAQMZfP44IaY1cAsVKLRkhXmCydPxjfEcZXamLSoawiWGlwL3qvJcxYuQ4yhE98FVQUYafGrfvQ5F00NV03LOwB')
     const [open, setOpen] = useRecoilState(paymentModalState)
     const handleClose = () => {
         setOpen(false)
@@ -40,6 +43,16 @@ const StripePayment = () => {
             colorText: 'white',
             colorPrimary: '#fff',
             colorTextPlaceholder: 'rgba(255,255,255,0.3)',
+            fontSizeBase: '16px', // Base font size
+            fontSizeXs: '0.75rem', // Extra small text
+            fontSizeSm: '0.875rem', // Small text
+            fontSizeLg: '1.125rem', // Large text
+            fontSizeXl: '1.25rem', // Extra large text
+            fontWeightLight: '300',
+            fontWeightNormal: '400',
+            fontWeightMedium: '500',
+            fontWeightBold: '700',
+            fontLineHeight: '1.5', // Line height for better readability
         },
         rules: {
             '.Label': {
@@ -47,7 +60,7 @@ const StripePayment = () => {
                 fontWeight: '400',
             },
             '.Input': {
-                backdropFilter: 'blur(10px)',
+                backdropFilter: 'blur(0.5rem)',
                 backgroundColor: 'rgba(255,255,255,0.2)',
             },
             '.Error': {
@@ -56,6 +69,7 @@ const StripePayment = () => {
             }
         }
     };
+
 
     return (
         <Modal
@@ -70,8 +84,11 @@ const StripePayment = () => {
                     display: 'flex',
                     alignItems: 'center',
                     fontWeight: 'bold',
-                    p: '1.8rem',
-                    fontSize: '2rem',
+                    p: '1.5rem',
+                    fontSize: {
+                        xs: '1.5rem',
+                        md: '2rem'
+                    },
                     width: '100%',
                     boxSizing: 'border-box'
                 }}>
