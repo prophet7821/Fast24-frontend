@@ -1,8 +1,6 @@
 import CarsPageSkeleton from "@/components/CarPageSkeleton";
 import {Metadata} from "next";
 import React from "react";
-import {Filter} from "@mui/icons-material";
-import FilterModal from "@/components/FilterModal";
 
 
 export const generateMetadata = async ({searchParams}: {
@@ -19,7 +17,6 @@ const CarsPage = ({searchParams}: {
     return (
         <>
             <CarsPageSkeleton searchParams={searchParams}/>
-            <FilterModal/>
         </>
 
     )

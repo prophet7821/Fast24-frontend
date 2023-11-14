@@ -14,7 +14,10 @@ import ModelTypeBadge from "@/components/ModelTypeBadge";
 import SpecsCard from "@/components/SpecsCard";
 import CarDetailsSkeleton from "@/components/CarDetailsSkeleton";
 import CarDetailsError from "@/components/CarDetailsError";
+import dynamic from "next/dynamic";
 
+
+const StripePaymentModal = dynamic(() => import ('@/components/StripePayment'))
 const CarDetails = ({params}: { params: { id: string } }) => {
     const [open, setOpen] = useRecoilState(paymentModalState)
     const {data, isLoading, isError} = useQuery({
@@ -162,6 +165,7 @@ const CarDetails = ({params}: { params: { id: string } }) => {
                                 </Grid>
                             </Grid>
                         </Container>
+                        <StripePaymentModal/>
                     </>
                 )
             }

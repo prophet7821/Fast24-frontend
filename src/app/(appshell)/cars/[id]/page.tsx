@@ -1,8 +1,6 @@
 import CarDetails from "@/components/CarDetails";
 import {Metadata} from "next";
 import {getCarById} from "@/services/cars.service";
-import StripePayment from "@/components/StripePayment";
-
 export const generateMetadata = async ({params}: { params: { id: string } }): Promise<Metadata> => {
     const {id} = params;
     try {
@@ -22,7 +20,7 @@ const CarDetailsPage = ({params}: { params: { id: string } }) => {
     return (
         <>
             <CarDetails params={params}/>
-            <StripePayment/>
+
         </>
 
     )

@@ -6,15 +6,68 @@ import SignIn from "@/components/NavBar/SignIn";
 import SignUp from "@/components/NavBar/SignUp";
 import SearchGlass from "@/components/NavBar/SearchGlass";
 import {userState} from "@/state/atoms/user.atom";
-import {useRecoilValue} from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import MDFAvatar from "@/components/NavBar/MDFAvatar";
 import {useRouter} from 'next/navigation'
 import Skeleton from "@mui/material/Skeleton";
 import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Typography from "@mui/material/Typography";
+import React from "react";
+import {AuthState, authState} from "@/state/atoms/auth.atom";
+import {snackbarState} from "@/state/atoms/snackbarState.atom";
+
 
 const Navbar = () => {
-    const user = useRecoilValue(userState)
+    const [user, setUser] = useRecoilState(userState)
+    const [auth, setAuth] = useRecoilState(authState)
+    const setSnackbarState = useSetRecoilState(snackbarState)
     const router = useRouter()
+    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+    const settings = [
+        {
+            id: 1,
+            name: 'Orders',
+            cb: () => {
+                console.log('Orders')
+            }
+        },
+        {
+            id: 2,
+            name: 'Logout',
+            cb: () => {
+                setUser((u) => ({
+                    ...u,
+                    data: null,
+                    isLoading: false,
+                }))
+                setAuth((a) => ({
+                    ...a,
+                    isAuthenticated: false,
+                    token: "",
+                }))
+                setSnackbarState((s) => ({
+                    ...s,
+                    open: true,
+                    message: "Logged out successfully!",
+                    severity: "success"
+                }))
+            }
+        }
+    ];
+
+
+    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
     const getInitials = (name: string) => {
         const names = name.split(' ');
         let initials = names[0].substring(0, 1).toUpperCase();
@@ -63,7 +116,37 @@ const Navbar = () => {
                                 </Skeleton>
                             ) : (
                                 user.data ? (
-                                    <MDFAvatar>{getInitials(user.data["fullName"])}</MDFAvatar>
+                                    <>
+                                        <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                                            <MDFAvatar>{getInitials(user.data["fullName"])}</MDFAvatar>
+                                        </IconButton>
+                                        <Menu
+                                            sx={{mt: '45px'}}
+                                            id="menu-appbar"
+                                            anchorEl={anchorElUser}
+                                            anchorOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'right',
+                                            }}
+                                            keepMounted
+                                            transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'right',
+                                            }}
+                                            open={Boolean(anchorElUser)}
+                                            onClose={handleCloseUserMenu}
+                                        >
+                                            {settings.map((setting) => (
+                                                <MenuItem key={setting.id} onClick={(e) => {
+                                                    setting.cb()
+                                                    handleCloseUserMenu()
+                                                }}>
+                                                    <Typography textAlign="center">{setting.name}</Typography>
+                                                </MenuItem>
+                                            ))}
+                                        </Menu>
+                                    </>
+
                                 ) : (
                                     <>
                                         <Box sx={{

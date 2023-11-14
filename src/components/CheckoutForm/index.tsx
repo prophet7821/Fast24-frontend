@@ -19,8 +19,6 @@ import {generateIdempotencyKey} from "@/lib/idempotencyKey.lib";
 import {removeIdempotencyHeader, setIdempotencyHeader} from "@/services/API";
 
 const CheckoutForm = () => {
-
-    const [isLoading, setIsLoading] = React.useState(true)
     const stripe = useStripe()
     const elements = useElements()
     const setSnackBar = useSetRecoilState(snackbarState)
@@ -29,10 +27,6 @@ const CheckoutForm = () => {
         const key = generateIdempotencyKey()
         setIdempotencyHeader(key)
     }, [])
-
-    useEffect(() => {
-        if (stripe && elements) setIsLoading(false)
-    }, [stripe, elements])
 
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
@@ -59,94 +53,93 @@ const CheckoutForm = () => {
                 return_url: 'http://localhost:3000/order/?success=true'
             },
         })
-        if (error) console.log(error)
+        if (error) {
+            setSnackBar((s: snackbarStateType) => ({
+                ...s,
+                open: true,
+                message: error.message as string,
+                severity: 'error'
+            }))
+            return;
+        }
     }
 
     return (
-        <>
-            {
-                isLoading ? (
-                    <div>Loading...</div>
-                ) : (
+        <Box sx={{
+            width: '100%',
+            color: 'white',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '2rem'
+        }}>
+            {/*<Box sx={{*/}
+            {/*    display: 'flex',*/}
+            {/*    flexDirection: 'column',*/}
+            {/*    justifyContent: 'center',*/}
+            {/*}}>*/}
+            {/*    <ExpressCheckoutElement onConfirm={handleSubmit} />*/}
+            {/*</Box>*/}
+            <Box component={"form"} onSubmit={handleSubmit} sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '2rem'
+            }}>
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    gap: '1.5rem'
+                }}>
                     <Box sx={{
-                        width: '100%',
-                        color: 'white',
+                        fontWeight: 'bold'
+                    }}>
+                        Shipping Information
+                    </Box>
+                    <Box sx={{
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '2rem'
+                        gap: '1rem'
                     }}>
-                        {/*<Box sx={{*/}
-                        {/*    display: 'flex',*/}
-                        {/*    flexDirection: 'column',*/}
-                        {/*    justifyContent: 'center',*/}
-                        {/*}}>*/}
-                        {/*    <ExpressCheckoutElement onConfirm={handleSubmit} />*/}
-                        {/*</Box>*/}
-                        <Box component={"form"} onSubmit={handleSubmit} sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '2rem'
-                        }}>
-                            <Box sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                gap: '1.5rem'
-                            }}>
-                                <Box sx={{
-                                    fontWeight: 'bold'
-                                }}>
-                                    Shipping Information
-                                </Box>
-                                <Box sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '1rem'
-                                }}>
 
-                                    <Box>
-                                        <LinkAuthenticationElement/>
-                                    </Box>
-                                    <Box>
-                                        <AddressElement options={{mode: 'shipping'}}/>
-                                    </Box>
-
-                                </Box>
-                            </Box>
-                            <Box sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                gap: '1.5rem'
-                            }}>
-                                <Box sx={{
-                                    fontWeight: 'bold'
-                                }}>
-                                    Card Information
-                                </Box>
-                                <PaymentElement/>
-                            </Box>
-                            <Box sx={{
-                                display: 'flex',
-                                justifyContent: 'flex-end',
-                                alignItems: 'center',
-                                p: 1
-                            }}>
-                                <MDFContainedBox>
-                                    <Button sx={{
-                                        textTransform: 'none',
-                                        color: 'white',
-                                        fontSize: '1.2rem',
-                                        fontWeight: 'bold',
-                                    }} type={"submit"}>Pay</Button>
-                                </MDFContainedBox>
-                            </Box>
+                        <Box>
+                            <LinkAuthenticationElement/>
                         </Box>
-                    </Box>
-                )
-            }
-        </>
+                        <Box>
+                            <AddressElement options={{mode: 'shipping'}}/>
+                        </Box>
 
+                    </Box>
+                </Box>
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    gap: '1.5rem'
+                }}>
+                    <Box sx={{
+                        fontWeight: 'bold'
+                    }}>
+                        Card Information
+                    </Box>
+                    <PaymentElement/>
+                </Box>
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                    p: 1
+                }}>
+                    <MDFContainedBox>
+                        <Button sx={{
+                            textTransform: 'none',
+                            color: 'white',
+                            fontSize: '1.2rem',
+                            fontWeight: 'bold',
+                        }} type={"submit"}>Pay</Button>
+                    </MDFContainedBox>
+                </Box>
+            </Box>
+        </Box>
     )
 }
 

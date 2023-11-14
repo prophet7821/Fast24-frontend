@@ -15,8 +15,10 @@ import {filterService} from "@/services/cars.service";
 import {useMemo} from "react";
 import CarPageFilterSkeleton from "@/components/CarPageFilterSkeleton";
 import noData from '@/assets/no-data-icon.svg'
+import dynamic from "next/dynamic";
 
 
+const FilterModal = dynamic(() => import('@/components/FilterModal'))
 const CarsPageSkeleton = ({searchParams}: {
     searchParams: { [key: string]: string }
 }) => {
@@ -111,76 +113,81 @@ const CarsPageSkeleton = ({searchParams}: {
 
 
     return (
-        <Container maxWidth={'lg'} sx={{
-            color: 'white',
-            padding: '2rem 0',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1.5rem',
-            justifyContent: 'center',
-            alignItems: 'center',
-        }}>
-            <Box sx={{
+        <>
+            <Container maxWidth={'lg'} sx={{
+                color: 'white',
+                padding: '2rem 0',
                 display: 'flex',
-                width: '100%',
-                justifyContent: 'space-between',
-                alignItems: 'center'
+                flexDirection: 'column',
+                gap: '1.5rem',
+                justifyContent: 'center',
+                alignItems: 'center',
             }}>
                 <Box sx={{
-                    fontSize: {
-                        xs: '1rem',
-                        md: '1.5rem',
-                    },
-                    fontWeight: 'bold',
+                    display: 'flex',
+                    width: '100%',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
                 }}>
-                    Returned {data?.length} results
+                    <Box sx={{
+                        fontSize: {
+                            xs: '1rem',
+                            md: '1.5rem',
+                        },
+                        fontWeight: 'bold',
+                    }}>
+                        Returned {data?.length} results
+                    </Box>
+                    {/*Filter Button*/}
+
+                    <MDFContainedBox>
+                        <FilterButton/>
+                    </MDFContainedBox>
                 </Box>
-                {/*Filter Button*/}
 
-                <MDFContainedBox>
-                    <FilterButton/>
-                </MDFContainedBox>
-            </Box>
+                {
+                    isLoading ? (
+                        <CarPageFilterSkeleton/>
+                    ) : isError ? (
+                        noDataFound()
+                    ) : (
+                        <>
+                            {
+                                data?.length > 0 ? (
+                                    <>
+                                        <Box sx={{
+                                            width: '100%',
+                                        }}>
+                                            <Divider sx={{
+                                                backgroundColor: '#9e9e9e'
+                                            }}/>
+                                        </Box>
+                                        <Box sx={{
+                                            width: '100%',
+                                        }}>
+                                            <Grid container spacing={2}>
+                                                {
+                                                    data?.map((car: any) => (
+                                                        <Grid key={car['_id']} item xs={6} md={4} lg={3}>
+                                                            <CarCard car={car}/>
+                                                        </Grid>
+                                                    ))
+                                                }
+                                            </Grid>
+                                        </Box>
+                                    </>
+                                ) : (
+                                    noDataFound()
+                                )
+                            }
+                        </>
+                    )
+                }
+            </Container>
+            <FilterModal/>
+        </>
 
-            {
-                isLoading ? (
-                    <CarPageFilterSkeleton/>
-                ) : isError ? (
-                    noDataFound()
-                ) : (
-                    <>
-                        {
-                            data?.length > 0 ? (
-                                <>
-                                    <Box sx={{
-                                        width: '100%',
-                                    }}>
-                                        <Divider sx={{
-                                            backgroundColor: '#9e9e9e'
-                                        }}/>
-                                    </Box>
-                                    <Box sx={{
-                                        width: '100%',
-                                    }}>
-                                        <Grid container spacing={2}>
-                                            {
-                                                data?.map((car: any) => (
-                                                    <Grid key={car['_id']} item xs={6} md={4} lg={3}>
-                                                        <CarCard car={car}/>
-                                                    </Grid>
-                                                ))
-                                            }
-                                        </Grid>
-                                    </Box>
-                                </>
-                            ) : (
-                                noDataFound()
-                            )
-                        }
-                    </>
-                )
-            }
-        </Container>
+
     )
 }
 
