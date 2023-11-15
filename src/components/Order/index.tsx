@@ -2,7 +2,7 @@
 import Box from "@mui/material/Box";
 import {useSearchParams} from "next/navigation";
 
-const Order = () => {
+const OrderConfirm = () => {
     const searchParams = useSearchParams()
     const success = searchParams.get('success')
     const paymentIntentId = searchParams.get('payment_intent')
@@ -47,4 +47,4 @@ const Order = () => {
     )
 }
 
-export default Order
+export default OrderConfirm
