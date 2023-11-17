@@ -11,7 +11,7 @@ export const authState = atom<AuthState>({
         isLoading: false,
         token: "",
     },
-    effects: [persistAtom]
+    effects: [persistAtom],
 })
 
 export type AuthState = {

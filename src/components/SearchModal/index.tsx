@@ -1,3 +1,4 @@
+"use client"
 import Modal from "@mui/material/Modal"
 import Box from "@mui/material/Box"
 import {searchModalState} from "@/state/atoms/searchModal.atom";

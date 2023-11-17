@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
 import React from "react";
+
 const CarLayout = ({children}: { children: React.ReactNode }) => {
     return (
         <Box sx={{
@@ -7,7 +8,10 @@ const CarLayout = ({children}: { children: React.ReactNode }) => {
                 xs: '8vh',
                 md: '10vh'
             },
-            width: '100%'
+            width: '100%',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
         }}>
             {children}
         </Box>

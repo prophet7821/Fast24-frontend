@@ -24,7 +24,7 @@ const style = {
     borderRadius: '1rem',
     width: {
         xs: '90%',
-        md: '50%',
+        md: '60%',
     },
     display: 'flex',
     flexDirection: 'column' as 'column',
@@ -47,7 +47,7 @@ const StripePayment = () => {
         labels: 'floating',
         variables: {
             colorText: 'white',
-            colorPrimary: '#fff',
+            colorPrimary: '#000',
             colorTextPlaceholder: 'rgba(255,255,255,0.3)',
             fontSizeBase: '16px', // Base font size
             fontSizeXs: '0.75rem', // Extra small text
@@ -72,7 +72,7 @@ const StripePayment = () => {
             '.Error': {
                 color: 'red',
                 fontWeight: 'bold',
-            }
+            },
         }
     };
 

@@ -23,7 +23,6 @@ import SignUpFormSubmitButton from "@/components/SignUpFormSubmitButton";
 import {User} from "@/types/signUpCredentials";
 import {snackbarState} from "@/state/atoms/snackbarState.atom";
 import {useSetRecoilState} from "recoil";
-import {AxiosError} from "axios";
 
 const SignUpForm = () => {
     const router = useRouter();

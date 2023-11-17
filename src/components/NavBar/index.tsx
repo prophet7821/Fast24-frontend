@@ -1,3 +1,4 @@
+"use client"
 import MDFAppBar from "@/components/NavBar/MDFAppBar";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -16,7 +17,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from "@mui/material/Typography";
 import React from "react";
-import {AuthState, authState} from "@/state/atoms/auth.atom";
+import {authState} from "@/state/atoms/auth.atom";
 import {snackbarState} from "@/state/atoms/snackbarState.atom";
 
 
@@ -26,6 +27,7 @@ const Navbar = () => {
     const setSnackbarState = useSetRecoilState(snackbarState)
     const router = useRouter()
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
 
     const settings = [
         {
@@ -39,11 +41,6 @@ const Navbar = () => {
             id: 2,
             name: 'Logout',
             cb: () => {
-                setUser((u) => ({
-                    ...u,
-                    data: null,
-                    isLoading: false,
-                }))
                 setAuth((a) => ({
                     ...a,
                     isAuthenticated: false,

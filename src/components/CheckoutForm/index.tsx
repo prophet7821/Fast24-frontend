@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     AddressElement,
-    // ExpressCheckoutElement,
     LinkAuthenticationElement,
     PaymentElement,
     useElements,
@@ -14,14 +13,15 @@ import MDFContainedBox from "@/components/MDFContainedBox";
 import {useSetRecoilState} from "recoil";
 import {snackbarState} from "@/state/atoms/snackbarState.atom";
 import {snackbarStateType} from "@/types/snackbar.type";
-import {useEffect} from "react";
 import {generateIdempotencyKey} from "@/lib/idempotencyKey.lib";
 import {removeIdempotencyHeader, setIdempotencyHeader} from "@/services/API";
+import {useParams} from 'next/navigation'
 
 const CheckoutForm = () => {
     const stripe = useStripe()
     const elements = useElements()
     const setSnackBar = useSetRecoilState(snackbarState)
+    const params = useParams();
 
     useEffect(() => {
         const key = generateIdempotencyKey()
@@ -50,7 +50,7 @@ const CheckoutForm = () => {
             elements: elements!,
             clientSecret: client_secret,
             confirmParams: {
-                return_url: 'http://localhost:3000/order/?success=true'
+                return_url: `http://localhost:3000/order_confirm/?car=${params['id']}`,
             },
         })
         if (error) {
